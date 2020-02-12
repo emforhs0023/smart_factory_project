@@ -1,0 +1,134 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="/js/jquery.js"></script>
+	<style>
+	*{
+		margin: 0px;
+		padding: 0px;	
+	}
+	#content{
+	    width: 100%;
+	    background-color: #2d3e48;
+	    min-height: 100%;
+	}
+	#content_area{
+		width: 1000px;
+		margin: 0 auto;
+	}
+	.typing{
+		margin-bottom: 10px;
+	}
+	#title{
+	    padding-top: 130px;
+    	text-align: center;
+    	margin-bottom: 70px;
+	}
+	.menu_title{
+		font-size: 25px;
+	    margin-bottom: 5px;
+	    color: white;
+	}
+	.menu_size{
+	    width: 460px;
+    	height: 40px;
+    	border-radius: 5px;
+    	padding-left: 10px;
+    	border: 1px;
+	}
+	</style>
+	<script>
+		$(function(){
+			$('#user_password').keyup(function(){
+				$('font[name=check]').text('');
+			}); //#user_pass.keyup
+			$('#chpass').keyup(function(){
+				if($('#user_password').val()!=$('#chpass').val()){
+					$('font[name=check]').text('');
+					$('font[name=check]').html("Passwords do not match.");
+				} else {
+					$('font[name=check]').text('');
+				    $('font[name=check]').html("Passwords match.");
+				}
+			})
+		})
+		function idSave(){
+			var passwordConfirm = $('font[name=check]').html();
+			var user_name = $('#user_name').val();
+			var user_id = $('#user_id').val();
+			var user_password = $('#user_password').val();
+			var chpass = $('#chpass').val();
+			
+			if(user_name == ""){
+				alert("Please enter your ID")
+				location.href = "/login/signUp"	
+			} else if(user_id == ""){
+				alert("Please enter your email")
+				location.href = "/login/signUp"	
+			} else if(user_password == ""){
+				alert("Please enter your password")
+				location.href = "/login/signUp"	
+			} else if(chpass == ""){
+				alert("Please enter your passwordConfirm")
+				location.href = "/login/signUp"	
+			} else if(passwordConfirm == "Passwords do not match."){
+				alert("Passwords do not match.")
+				location.href = "/login/signUp"
+			}
+
+			membersList = {"user_name":user_name, "user_id":user_id, "user_password":user_password};
+
+			$.ajax({
+                url:"/login/insertUserInfo",
+                contentType:"application/json",
+                method:"post",
+                data:JSON.stringify(membersList),
+                success:function(data){
+                	if(data){
+                		alert("회원가입 되셨습니다.")
+                		location.href = "/login"
+                	}
+                } 	
+			})
+		}
+
+	</script>
+</head>
+<body>
+	<div id='content'>
+		<div id='content_area'>
+			<div>
+				<div id='title'>
+					<h1 style='font-size: 50px; color: white;'><span style='color: tomato;'>E</span>quipment <span style='color: tomato;'>M</span>aintenance <span style='color: tomato;'>S</span>ystem</h1>
+					<p style='font-size: 30px; color: white;'>Save your factory from old factory</p>
+				</div>
+				<div style='width: 500px; margin: 0 auto; background-color: #c5cacf;border-radius: 10px;'>
+					<div style='padding: 20px;'>
+						<div class='typing'>
+							<p class='menu_title'>Username :</p>
+							<input type="text" placeholder="Username" class='menu_size' id='user_name'>
+						</div>
+						<div class='typing'>
+							<p class='menu_title'>Email address :</p>
+							<input type="text" placeholder="Email address" name = "user_pass" class='menu_size' id='user_id'>
+						</div>
+						<div class='typing'>
+							<p class='menu_title'>Password :</p>
+							<input type="Password" placeholder="Username or Email" class='menu_size' id='user_password'>	
+						</div>
+						<div class='typing'>
+							<p class='menu_title'>Confirm Password :</p>
+							<input type="Password" placeholder="Password"  name="chpass" id='chpass'class='menu_size'>	
+							<font name="check" size="2" color="red"></font> 
+						</div>
+						<div style='width: 350px; background-color: #68b6e8; margin: 0 auto; margin-top: 20px;border-radius: 5px;' onclick='idSave()'> 
+							<p style='text-align: center; font-size: 20px; padding: 10px; color: white;'>Create an account</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<html>
+	<head>
+		<title>
+			{%block title%}{%endblock%}
+		</title>
+		<link rel="stylesheet" href="/css/jquery-ui.css">
+		<link rel="stylesheet" type="text/css" href="/static/css/jquery.dataTables.min.css">
+		<script type="text/javascript" src="/js/jquery.min.js"></script>
+	  	<script type="text/javascript" src="/js/jquery.dataTables.js"></script>
+	  	<script type="text/javascript" src="/js/moment.js"></script>
+	  	<script type="text/javascript" src="https://d3js.org/d3.v4.min.js"></script>
+	  	<script src="/js/jquery-ui.js"></script>
+	  	<style type="text/css">
+		  	@import url(https://fonts.googleapis.com/earlyaccess/notosanskr.css);
+			*{
+				margin: 0px;
+				padding: 0px;
+				font-family: 'Noto Sans KR', sans-serif;
+			}
+	  		#content_area{
+	  			width:1920px;
+	  		}
+	 		#content_left{
+	 			float:left;
+	 			width:400px;
+	 			height: 950px;
+	 		}
+	 		#content_right{
+	 			float:right;
+	 			width:1520px;
+	 			height: 950px;
+	 			background-color: #2D3E48;
+	 		}
+	 		#web_title{
+	 			margin:10px;
+	 			font-size: 27px;
+	 			font-weight: 700px;
+	 			text-align: center;
+	 			background-color: white;
+	 			font-weight: 700;
+	 		}
+	 		#menu{
+	 			margin:10px;
+	 			background-color: white;
+	 			height:840px;
+	 		}
+	 		#menu img{
+	 			width:100%;
+	 			height:400px;
+	 		}
+	 		#menu ul{
+	 			margin-top:10px;
+	 			background-color: white;
+	 		}
+	 		#menu a{
+	 			color:black;
+	 			text-decoration: none;
+	 		}
+	 		#menu ul li{
+	 			display: block;
+	 			height:50px;
+	 			padding-left:10;
+	 			line-height: 50px;
+	 			font-weight: 700;
+	 			font-size: 20px;
+	 			cursor: pointer;
+	 			background-color: white;
+	 		}
+	 		#menu ul li:hover{
+	 			color:white;
+	 			background-color: #BDBDBD;
+
+	 		}
+	  	</style>
+	  	{%block link%}{%endblock%}
+  		{%block script%}{%endblock%}	
+	</head>
+	<body>
+		<div style="background-color: #2D3E48; min-height:100%">
+			<div id="content_area">
+				<div id = "content_left">
+					<div id="web_title">
+						Equipment Management System
+					</div>
+					<div id="menu">
+						<img src="/static/img/logo.png" alt="logo">
+						<ul id = "main_menu">
+							<a href="/dashboard"><li id="dashboard_li">Dashboard</li></a>
+							<!-- <a href="/monitoring"><li>Equipment Operation Status</li></a> -->
+							<a href="/monitoring"><li id="monitoring_li">Monitoring</li></a>
+							<a href="/setting"><li id="setting_li">Setting</li></a>
+							<a href="/dataset"><li id="dataset_li">Data Set</li></a>
+							<a href="#" onclick=go()><li>logout</li></a>
+						</ul>
+					</div>
+				</div>
+				<script type="text/javascript">
+				function go(){
+					var form = document.createElement("form");
+					form.action = "/login/logout";
+					form.method = "post";
+					document.body.appendChild(form);
+					form.submit();
+				}
+				</script>
+				<div id ="content_right">
+					{%block content%}{%endblock%}
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+<html>

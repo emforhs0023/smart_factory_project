@@ -1,0 +1,100 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="/js/jquery.js"></script>
+</head>
+	<style>
+	*{
+		margin: 0px;
+		padding: 0px;	
+	}
+	#content{
+	    width: 100%;
+	    background-color: #2d3e48;
+	    min-height: 100%;
+	}
+	#content_area{
+		width: 500px;
+		margin: 0 auto;
+	}
+	
+	#title {
+	    text-align: center;
+        margin-bottom: 105px;
+	}
+	#idZone{
+		text-align: center;
+	}
+	#pwdZone{
+		text-align: center;	
+	}
+	.idPwd{
+		width: 500px; height: 60px; margin-bottom: 10px;font-size: 25px;border-radius: 5px;border: 1px;
+	}
+	#submit{
+		text-align: center;	
+	}
+	#login_submit{
+	    background-color: #e15f5f;
+	    border: none;
+        color: white;
+        border-radius: 5px;
+	}
+	#signUp{
+		color: white;
+		float: left;
+		font-size: 25px;
+	}
+	#pwdLost{
+		color: white;
+		float: right;
+		font-size: 25px;
+	}
+	a{
+		color: white;
+		text-decoration:none;
+	}
+	</style>
+	<script>
+		function aa(){
+			var id = $("#id").val();
+			if(id == ""){
+				alert("id를 입력 하지 않았습니다.")	
+			}
+		}
+	</script>
+<body>
+	<div id='content'>
+		<div id='content_area'>
+			<div>
+				<div id='title'>
+					<img src="/static/img/loginLogo.png" style='width: 300px; margin-top: 130px;'>
+				</div>
+				<div id='login_zone'>
+					<form method="post" action="/login/signin">
+						<div id='none' style='display: none'>
+							<p>Cannot login. Please check your username and password</p>
+						</div>
+						<div id='idZone'>
+							<input type="text" id='id' class='idPwd' name="userId" placeholder="Username or Email" style='padding-left: 10px;'>
+						</div>
+						<div id='pwdZone'>
+							<input type="password" id='pwd' class='idPwd' name="password" placeholder="Password" style='padding-left: 10px;'>
+						</div>
+						<div id='submit'>
+							<button type="submit" id = "login_submit" class='idPwd' value="로그인" onclick="aa()">Log in</button>
+						</div>
+					</form>	
+				</div>
+				<div id='signUp'>
+					<a href="/login/signUp"><p>Create an account</p></a>
+				</div>
+				<div id='pwdLost'>
+					<p>Forgot Password?</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

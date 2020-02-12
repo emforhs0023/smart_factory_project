@@ -1,0 +1,380 @@
+{%extends "base.html"%}
+
+{%block title%}
+dashboard
+{%endblock%}
+{%block link%}{%endblock%}
+{%block script%}
+{%endblock%}	
+{%block content%}
+<script type="text/javascript">
+	$(function(){
+		$("#dataset_li").css({"background-color":"gray","color":"white"})	
+	})
+</script>
+<style>
+	#content{
+		margin-top:10px;
+		width:1510px;
+		height:930px;
+	}
+	#content_top{
+		overflow: hidden;
+		margin-bottom:10px;
+	}
+	#top_1{
+		width: 100%;
+		height:40px;
+	}
+	#factoryName{
+		float: left;
+		height: 30px;	
+	}
+	#factoryLine{
+		float: left;	
+	}
+	#machineName{
+		float: left;	
+	}
+</style>
+<script>
+	user_id = "{{user_id}}";
+
+	$(function(){
+		var nameSelect = $("#nameSelect").val();
+		var lineSelect = $("#lineSelect").val();
+		var selectMachineName = $("#selectMachineName").val();
+		
+		$.ajax({
+	        url:"/dataSet/selectName?user_id="+user_id,
+	        contentType:"application/json",
+	        method:"get",
+	        success:function(data){
+				for(var i =0; i<data.length; i++){
+	        		$("#nameSelect").append("<option value="+data[i].factory_code+">"+data[i].factory_name+"</option>")
+	        	}
+	        	var factory_code = $("#nameSelect").val()
+	        	$.ajax({
+			        url:"/dataSet/selectInfo?factory_code="+factory_code,
+			        contentType:"application/json",
+			        method:"get",
+			        success:function(data){
+			        	for(var i =0; i<data.length; i++){
+							$("#lineSelect").append("<option value="+data[i].line+">"+data[i].line+"</option>")
+						}
+						var lineSelect = $("#lineSelect").val()
+						$.ajax({
+					        url:"/dataSet/selectMachineInfo?lineSelect="+lineSelect,
+					        contentType:"application/json",
+					        method:"get",
+					        success:function(data){
+					        	$("#selectMachineName option").remove();
+					        	for(var i =0; i<data.length; i++){
+									$("#selectMachineName").append("<option value="+data[i].node_id+">"+data[i].node_id+"</option>")
+								}
+								var node_id = $("#selectMachineName").val()
+
+								$.ajax({
+							        url:"/dataSet/sensorInfo?node_id="+node_id,
+							        contentType:"application/json",
+							        method:"get",
+							        success:function(data){
+							        	var node_id = $("#selectMachineName").val()
+
+										$.ajax({
+									        url:"/dataSet/sensorInfo?node_id="+node_id,
+									        contentType:"application/json",
+									        method:"get",
+									        success:function(data){
+									        	var TableList2 = data[0]
+									        	for(var i = 0 ; i<TableList2.length; i++){
+								                    var row = TableList2[i]
+								                    update_date = new Date(row["update_date"]);
+								                    var using_date_format = moment(update_date).format("YYYY-MM-DD hh:mm:ss");
+
+								                    row["update_date"] = using_date_format
+								                }
+									        	var dataCount = data[1]
+									        	var count = dataCount[0].count;
+									        	$("#count").html(count)
+									        	table2 = $("#sensorTable").DataTable({
+											        "destroy":true,
+											        "ordering":false,
+											        "searching": false,
+											        "info": false,
+											        "scrollY": "755px",
+											        "scrollCollapse": true,
+											        "bLengthChange": false,
+											        "data": TableList2,
+											        "paging": false,
+											        "columnDefs":[
+											        ],
+											        "columns":[
+											        {"data":"update_date"},
+											        {"data":"sensor_id"},
+											        {"data":"type"},
+											        {"data":"value"},
+											        {"data":"value"},
+											        ]
+											    });
+								        	}
+							        	})
+						        	}
+					        	})
+							}
+					    })
+			        }
+			    })	
+			}
+	    })
+
+		$("#nameSelect").on("change", function(){
+			selectChange()
+		})
+		$("#lineSelect").on("change", function(){
+			selectLineChange()
+		})
+		$("#selectMachineName").on("change", function(){
+			selectMachineChange()
+		})
+	})
+	function selectChange(){
+		var nameSelect = $("#nameSelect").val();
+		
+		$.ajax({
+	        url:"/dataSet/changeSelectLine?nameSelect="+nameSelect,
+	        contentType:"application/json",
+	        method:"get",
+	        success:function(data){
+	        	$("#lineSelect option").remove();
+	        	for(var i =0; i<data.length; i++){
+					$("#lineSelect").append("<option value="+data[i].line+">"+data[i].line+"</option>")
+				}
+				var lineSelect = $("#lineSelect").val()
+				$.ajax({
+			        url:"/dataSet/changeSelectMachine?lineSelect="+lineSelect,
+			        contentType:"application/json",
+			        method:"get",
+			        success:function(data){
+			        	$("#selectMachineName option").remove();
+			        	for(var i =0; i<data.length; i++){
+							$("#selectMachineName").append("<option value="+data[i].node_id+">"+data[i].node_id+"</option>")
+						}
+					}
+				})
+			}
+	    })
+	}
+	function selectLineChange(){
+		var lineSelect = $("#lineSelect").val();
+
+		$.ajax({
+	        url:"/dataSet/changeSelectMachine?lineSelect="+lineSelect,
+	        contentType:"application/json",
+	        method:"get",
+	        success:function(data){
+	        	$("#selectMachineName option").remove();
+	        	for(var i =0; i<data.length; i++){
+					$("#selectMachineName").append("<option value="+data[i].node_id+">"+data[i].node_id+"</option>")
+				}
+				var node_id = $("#selectMachineName").val()
+
+				$.ajax({
+			        url:"/dataSet/sensorInfo?node_id="+node_id,
+			        contentType:"application/json",
+			        method:"get",
+			        success:function(data){
+			        	var TableList = data[0]
+			        	for(var i = 0 ; i<TableList.length; i++){
+		                    var row = TableList[i]
+		                    update_date = new Date(row["update_date"]);
+		                    var using_date_format = moment(update_date).format("YYYY-MM-DD hh:mm:ss");
+
+		                    row["update_date"] = using_date_format
+		                }
+			        	var dataCount = data[1]
+			        	var count = dataCount[0].count;
+			        	$("#count").html(count)
+			        	table = $("#sensorTable").DataTable({
+					        "destroy":true,
+					        "ordering":false,
+					        "searching": false,
+					        "info": false,
+					        "scrollY": "755px",
+					        "scrollCollapse": true,
+					        "bLengthChange": false,
+					        "data": TableList,
+					        "paging": false,
+					        "columnDefs":[
+					        ],
+					        "columns":[
+					        {"data":"update_date"},
+					        {"data":"sensor_id"},
+					        {"data":"type"},
+					        {"data":"value"},
+					        {"data":"value"},
+					        ]
+					    });
+		        	}
+	        	})
+			}
+		})
+	}
+	function selectMachineChange(){
+		var node_id = $("#selectMachineName").val()
+
+		$.ajax({
+	        url:"/dataSet/sensorInfo?node_id="+node_id,
+	        contentType:"application/json",
+	        method:"get",
+	        success:function(data){
+	        	var TableList1 = data[0]
+	        	for(var i = 0 ; i<TableList1.length; i++){
+                    var row = TableList1[i]
+                    update_date = new Date(row["update_date"]);
+                    var using_date_format = moment(update_date).format("YYYY-MM-DD hh:mm:ss");
+
+                    row["update_date"] = using_date_format
+                }
+	        	var dataCount = data[1]
+	        	var count = dataCount[0].count;
+	        	$("#count").html(count)
+	        	table1 = $("#sensorTable").DataTable({
+			        "destroy":true,
+			        "ordering":false,
+			        "searching": false,
+			        "info": false,
+			        "scrollY": "755px",
+			        "scrollCollapse": true,
+			        "bLengthChange": false,
+			        "data": TableList1,
+			        "paging": false,
+			        "columnDefs":[
+			        ],
+			        "columns":[
+			        {"data":"update_date"},
+			        {"data":"sensor_id"},
+			        {"data":"type"},
+			        {"data":"value"},
+			        {"data":"value"},
+			        ]
+			    });
+        	}
+    	})	
+	}
+</script>
+<style>
+	.titleMenu {
+	    float: left;
+	    background-color: #d9d9d9;
+	    font-size: 22px;
+        padding: 3px 55px 3px 54px;
+        font-weight: 700;
+        margin-left: 10px;
+        
+	}
+
+	.selectTitle{
+		background-color: white;
+		float: left;
+	    font-size: 22px;
+        font-weight: 700;
+        margin-left: 10px;
+        width: 259px;
+        padding-bottom: 2px;
+        text-align-last: center;
+	}
+	#content_bottom{
+		height: 881px;
+    	background-color: white;
+	}
+	#sensorTable td{
+		text-align: center;
+		font-size: 17px;
+		font-weight: 400;
+	    height: 55px;
+	    border: 1px solid #e2e2e2;
+
+	}    
+	#sensorTable{
+		border-collapse: collapse;
+	}
+	#sensorTable thead tr{
+		border-bottom: 5px solid #bdbdbd;
+		margin-top: 10px;
+	}
+	
+</style>
+<div id="content">
+	<div id="content_top">
+		<div id = "top_1">
+			<div id='factoryName'>
+				<p class ='titleMenu' style='margin-left: 0px;'>Factory Name</p>
+				<select class= 'selectTitle'  id="nameSelect">
+				</select>
+			</div>
+			<div id='factoryLine'>
+				<p class ='titleMenu'>Line</p>
+				<select class= 'selectTitle'  id="lineSelect">
+				</select>
+			</div>
+			<div id='machineName'>
+				<p class ='titleMenu'>Machine Name</p>
+				<select class= 'selectTitle' id="selectMachineName">
+				</select>
+			</div>
+		</div>
+	</div>
+	<style>
+		#countTitle{
+			font-size: 20px;
+		    font-weight: 700;
+		    margin: 0 auto;
+		    width: 275px;
+		}
+		#firstCountTitle{
+			float: left;
+		    background-color: #d9d9d9;
+		    padding-left: 40px;
+		    margin-top: 20px;
+		}
+		#count{
+			float: left;
+		    background-color: #d9d9d9;
+		    margin-top: 20px;
+		    padding-left: 10px;
+		}
+		#lastCountTitle{
+			float: left;
+		    padding-right: 40px;
+		    background-color: #d9d9d9;
+		    margin-top: 20;
+		    padding-left: 10px;
+		}
+		.sensorTd{
+			padding-bottom: 20px;
+		}
+	</style>
+	<div id="content_bottom">
+		<div style='margin-bottom: 20px;'>
+			<pre id='countTitle'>
+<span id='firstCountTitle'>Found :</span><p id='count'></p><span id ='lastCountTitle'>records</span>
+			</pre>
+		</div>
+		<div style='margin: 10px;'>
+			<table id='sensorTable'>
+				<thead style='text-align: center; font-size: 17px; font-weight: 700; margin-bottom: 10px;'>
+					<tr>
+						<td class ='sensorTd'>Date</td>
+						<td class ='sensorTd'>Node ID</td>
+						<td class ='sensorTd'>Sensor Type</td>
+						<td class ='sensorTd'>Data</td>
+						<td class ='sensorTd'>Node State</td>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</div>
+	</div>
+</div>
+{%endblock%}

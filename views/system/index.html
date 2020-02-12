@@ -1,0 +1,744 @@
+{%extends "base.html"%}
+{%block title%}
+Setting
+{%endblock%}
+{%block link%}{%endblock%}
+{%block script%}{%endblock%}	
+{%block content%}
+<script type="text/javascript">
+	$(function(){
+		$("#setting_li").css({"background-color":"gray","color":"white"})	
+	})
+</script>
+<style>
+	*{
+		background-color: none;	
+	}
+	#content{
+		margin-top:10px;
+		width:1510px;
+		height:930px;
+		background-color: #2D3E48;
+	}
+	#content_top{
+		overflow: hidden;
+		margin-bottom:10px;
+	}
+	#content_top p, #content_bottom p{
+		background-color: white;
+		font-weight: 600;
+	}
+	#top_1{
+		float:left;
+		width:604px;
+		height:350px;
+		background-color: white;
+	}
+	#top_2{
+		float:left;
+		margin-left:10px;
+		width:896px;
+		height:350px;
+		background-color: white;
+	}
+	table{
+		background-color: white;
+	}
+	table tr td{
+		background-color: white;
+	}
+	#content_bottom{
+		float:left;
+		width:100%;
+		height:570px;
+		background-color: white;
+	}
+	.factoryInput{
+		background-color: white; 
+		width: 260px; 
+		height: 35px; 
+		border: 1px solid gray; 
+		border-radius: 7px; 
+		margin-top: 7px; 
+		padding-left: 10px;
+	}
+	#factorySave{
+		float: right;
+		padding: 5px 35px 5px 35px; 
+		background-color: #00b050; 
+		border-radius: 5px; 
+		margin-right: 30px; 
+		margin-top: 33px;
+	}
+	#factorySave:hover{
+		cursor:pointer;
+	}
+	#factorySave p{
+		background-color: #00b050; color: white;
+	}
+	#edit{
+	    width: 100px;
+	    background-color: #ffd966;
+	    height: 30px;
+	    border: 1px solid #ffd966;
+	    border-radius: 5px;
+	    color: white;
+	}
+	#edit:hover{
+		cursor:pointer;
+	}
+	#delete{
+		width: 100px;
+		background-color: tomato;
+		height: 30px;
+	    border: 1px solid tomato;
+	    border-radius: 5px;
+	    color: white;
+	}
+	#delete:hover{
+		cursor:pointer;
+	}
+	#machines{
+		width: 100px;
+		background-color: gray;
+		height: 30px;
+	    border: 1px solid gray;
+	    border-radius: 5px;
+	    color: white;
+	}
+	#machines:hover{
+		cursor:pointer;
+	}
+	#addMachines{
+		width: 100px;
+		background-color: #2f5597;
+		height: 30px;
+	    border: 1px solid #2f5597;
+	    border-radius: 5px;
+	    color: white;
+	}
+	#addMachines:hover{
+		cursor:pointer;
+	}
+	#factoryTable{
+		border-collapse: collapse;	
+	}
+	#factoryTable td{
+	    height: 40px;
+    	border-bottom: 1px solid #e2e2e2;
+    	text-align: center;
+	}
+	#machinesTable{
+		text-align: center;	
+	}
+	
+	#machinesTable td{
+		border-bottom: 1px solid #e2e2e2;
+    	text-align: center;
+	}
+	.dataTables_scrollHeadInner{
+		border-bottom: 1px solid;
+	}
+	.machinesInput{
+		width: 230px; 
+		height: 35px; 
+		border: 1px solid gray; 
+		border-radius: 7px; 
+		margin-top: 7px; 
+		padding-left: 10px;
+	}
+	.ui-draggable .ui-dialog-titlebar {
+	    text-align: center;
+	    cursor: move;
+	}
+	#factoryMachinesTable td{
+		border-bottom: 1px solid #e2e2e2;
+    	text-align: center;
+    	padding-bottom: 4px;
+	    height: 40px;
+	}
+	#sensorInfo{
+		width: 100px;
+		background-color: gray;
+		height: 30px;
+	    border: 1px solid gray;
+	    border-radius: 5px;
+	    color: white;
+	}
+	#sensorInfo:hover{
+		cursor:pointer;
+	}
+	#addSensor{
+	    width: 100px;
+	    background-color: #2f5597;
+	    height: 30px;
+	    border: 1px solid #2f5597;
+	    border-radius: 5px;
+	    color: white;
+	}
+	#addSensor:hover{
+		cursor:pointer;
+	}
+	#viewConfiguration:hover{
+		cursor:pointer;
+	}
+	#dataSet:hover{
+		cursor:pointer;
+	}
+	#addMachinesBtn{
+		background-color: #2f5597;
+	    border: 1px solid #2f5597;
+	    border-radius: 7px;
+	    color: white;
+	    margin-right: 50px;
+	}
+	#addSensorBtn{
+		background-color: #2f5597;
+	    border: 1px solid #2f5597;
+	    border-radius: 7px;
+	    color: white;
+	    margin-right: 50px;
+	}
+	#factoryMachinesTable td{
+		text-align: center;
+	}
+	#factoryMachinesDelete{
+		width: 100px;
+		background-color: tomato;
+		height: 30px;
+	    border: 1px solid tomato;
+	    border-radius: 5px;
+	    color: white;
+	}
+	#factoryMachinesDelete:hover{
+		cursor:pointer;
+	}
+	#viewConfiguration{
+	    width: 290px;
+	    background-color: gray;
+	    height: 30px;
+	    border: 1px solid gray;
+	    border-radius: 5px;
+	    color: white;
+	}
+	#dataSet{
+		width: 260px;
+	    background-color: #2f5597;
+	    height: 30px;
+	    border: 1px solid #2f5597;
+	    border-radius: 5px;
+	    color: white;
+	}
+</style>
+<script>
+	user_id = "{{user_id}}";
+	$(function(){
+		console.log(user_id)
+		$.ajax({
+			url:"/setting/factoryDataInfo?user_id="+ user_id,
+	        contentType:"application/json",
+	        method:"get",
+	        success:function(data){
+	        	var TableList = data
+	        	table = $("#factoryTable").DataTable({
+			        "destroy":true,
+			        "ordering":false,
+			        "searching": false,
+			        "info": false,
+			        "scrollY": "320px",
+			        "scrollCollapse": true,
+			        "bLengthChange": false,
+			        "data": TableList,
+			        "paging": false,
+			        "columnDefs":[
+			        ],
+			        "columns":[
+				        {"data":"seq","width":"100px"},
+				        {"data":"factory_code","width":"150px"},
+				        {"data":"factory_name","width":"150px","min-width":"150px"},
+				        {"defaultContent": "<button id = 'edit'>Edit</button> <button id = 'delete'>Delete</button> <button id = 'machines'>Machines</button> <button id = 'addMachines'>Add Machines</button>"},
+				    ]
+			    });
+	        }
+		})
+		$.ajax({
+			url:"/setting/factoryMachinesInfo?user_id="+ user_id,
+	        contentType:"application/json",
+	        method:"get",
+	        success:function(data){
+	        	var TableList2 = data
+	        	table2 = $("#factoryMachinesTable").DataTable({
+			        "destroy":true,
+			        "ordering":false,
+			        "searching": false,
+			        "info": false,
+			        "scrollY": "507px",
+			        "scrollCollapse": true,
+			        "bLengthChange": false,
+			        "data": TableList2,
+			        "paging": false,
+			        "columnDefs":[
+			        ],
+			        "columns":[
+				        {"data":"factory_code","width":"150px"},
+				        {"data":"factory_name","width":"150px"},
+				        {"data":"line","width":"150px"},
+				        {"data":"node_id","width":"150px"},
+				        {"defaultContent": "<button id = 'factoryMachinesDelete'>Delete</button> <button id = 'sensorInfo'>Sensor</button> <button id = 'addSensor'>Add Sensor</button> <button id = 'viewConfiguration'>View Configuration</button> <button id = 'dataSet'>Data Set</button>"},
+				    ]
+			    });
+	        }
+		})
+		$("#factoryMachinesTable").on("click", "#factoryMachinesDelete", function(){
+			var data = table2.row($(this).parents("tr")).data();
+			var node_id = data.node_id;
+			$("#machineDelete").dialog({
+				height:"auto",
+				width:"400px",
+				modal : true,
+				buttons: {
+					"btn3" : {
+						text : "삭제",
+						id : "delete_welltag_button",
+						click:function(){
+							$.ajax({
+								url:"/setting/machineDelete?node_id="+node_id,
+								contentType:"application/json",
+								method:"delete",
+								success:function(data){
+									console.log(data)
+									if(data == true){
+										alert("삭제 되었습니다.")
+										location.href = "/setting";
+									} else {
+										alert("실패하였습니다.")
+										location.href = "/setting";
+									}
+								}
+							})
+						}
+					}
+				}
+			})
+		})
+		$("#factoryMachinesTable").on("click", "#sensorInfo", function(){
+			var data = table2.row($(this).parents("tr")).data();
+			var node_id = data.node_id;
+			$.ajax({
+				url:"/setting/sensorInfo?node_id="+node_id,
+				contentType:"application/json",
+				method:"get",
+				success:function(data){
+					var TableList3 = data
+					// console.log(data)
+		        	table3 = $("#sensorTable").DataTable({
+				        "destroy":true,
+				        "ordering":false,
+				        "searching": false,
+				        "info": false,
+				        "scrollY": "340px",
+				        "scrollCollapse": true,
+				        "bLengthChange": false,
+				        "data": TableList3,
+				        "paging": false,
+				        "columnDefs":[
+				        ],
+				        "columns":[
+					        {"data":"seq","width":"100px"},
+					        {"data":"node_id","width":"150px"},
+					        {"data":"sensor_id","width":"150px"},
+					        {"data":"type","width":"150px","min-width":"150px"},
+					        {"data":"value","width":"150px","min-width":"150px"},
+					    ]
+				    });
+				}
+			})
+			$("#sensor_area").dialog({
+				height:"auto",
+				width:"400px",
+				modal : true,
+				buttons: {
+				}
+			})	
+		})
+		$("#factoryMachinesTable").on("click", "#addSensor", function(){
+			var data = table2.row($(this).parents("tr")).data();
+			var node_id = data.node_id
+			$("#addSensor_zone").dialog({
+				height:"auto",
+				width:"264px",
+				modal : true,
+				buttons: {
+					"btn2" : {
+						text : "Add Sensor",
+						id : "addSensorBtn",
+						click:function(){
+							var sensorType = $("#sensorType").val();
+							var sensor_id = $("#addSensor_id").val();
+						    
+						    addSensorData = {"node_id":node_id, "sensorType":sensorType, "sensor_id":sensor_id};
+
+							$.ajax({
+								url:"/setting/insertAddSensor",
+								contentType:"application/json",
+								method:"post",
+								data:JSON.stringify(addSensorData),
+								success:function(data){
+									if(data == true){
+										alert("저장을 성공하였습니다.")
+										location.href = "/setting";
+									}
+								}
+							})
+						}
+					}
+				}
+			})
+		})
+		$("#factoryMachinesTable").on("click", "#viewConfiguration", function(){
+			location.href = "/monitoring";
+		})
+		$("#factoryMachinesTable").on("click", "#dataSet", function(){
+			location.href = "/dataSet";
+		})
+		$("#factoryTable").on("click", "#edit", function(){
+		    var data = table.row($(this).parents("tr")).data();
+		    var factory_name = data.factory_name;
+		    var seq = data.seq;
+	        $("#newName").val(factory_name)
+	        $("#name_edit").dialog({
+				height:"auto",
+				width:"400px",
+				modal : true,
+				buttons: {
+					"btn1" : {
+						text : "수정",
+						id : "add_edit_button",
+						click:function(){
+							var newNameValue = $("#newName").val();
+							newName = {"newNameValue":newNameValue, "seq":seq}
+							$.ajax({
+								url:"/setting/updateName",
+								contentType:"application/json",
+								method:"put",
+								data:JSON.stringify(newName),
+								success:function(data){
+									if(data == true){
+										alert("이름이 변경 되었습니다.")
+										location.href = "/setting";
+									} else {
+										alert("변경 실패하였습니다.")
+										location.href = "/setting";
+									}
+								}
+							})
+						}
+					}	
+				}
+			})			
+	    })
+	    $("#factoryTable").on("click", "#delete", function(){
+		    var data = table.row($(this).parents("tr")).data();
+		    var seq = data.seq;
+		    $("#factory_delete").dialog({
+				height:"auto",
+				width:"400px",
+				modal : true,
+				buttons: {
+					"btn2" : {
+						text : "삭제",
+						id : "delete_welltag_button",
+						click:function(){
+							$.ajax({
+								url:"/setting/factoryDelete?seq="+seq,
+								contentType:"application/json",
+								method:"delete",
+								success:function(data){
+									if(data == true){
+										alert("삭제 되었습니다.")
+										location.href = "/setting";
+									} else {
+										alert("실패하였습니다.")
+										location.href = "/setting";
+									}
+								}
+							})
+						}
+					}	
+				}
+			})		
+		})
+		$("#factoryTable").on("click", "#machines", function(){
+		    var data = table.row($(this).parents("tr")).data();
+		    var seq = data.seq;
+		    var factory_code = data.factory_code;
+		    $.ajax({
+				url:"/setting/machinesInfo?seq="+seq+"&factory_code="+factory_code,
+				contentType:"application/json",
+				method:"get",
+				success:function(data){
+					var TableList1 = data
+					console.log(data)
+		        	table1 = $("#machinesTable").DataTable({
+				        "destroy":true,
+				        "ordering":false,
+				        "searching": false,
+				        "info": false,
+				        "scrollY": "350px",
+				        "scrollCollapse": true,
+				        "bLengthChange": false,
+				        "data": TableList1,
+				        "paging": false,
+				        "columnDefs":[
+				        ],
+				        "columns":[
+					        {"data":"seq","width":"100px"},
+					        {"data":"machine_name","width":"150px"},
+					        {"data":"line","width":"150px"},
+					        {"data":"worker","width":"150px","min-width":"150px"},
+					        {"data":"product","width":"150px","min-width":"150px"},
+					    ]
+				    });
+					
+				}
+			})
+		    $("#machines_area").dialog({
+				height:"auto",
+				width:"400px",
+				modal : true,
+				buttons: {
+
+				}
+			})		
+		})
+		$("#factoryTable").on("click", "#addMachines", function(){
+		    var data = table.row($(this).parents("tr")).data();
+		    var factory_code = data.factory_code;
+		 	$("#addMachines_zone").dialog({
+				height:"auto",
+				width:"264px",
+				modal : true,
+				buttons: {
+					"btn2" : {
+						text : "Add Machines",
+						id : "addMachinesBtn",
+						click:function(){
+							var lineName = $("#lineName").val();
+							var nodeId = $("#nodeId").val();
+						    var machineName = $("#machineName").val();
+						    var workerName = $("#workerName").val();
+						    var productName = $("#productName").val();
+						    
+							addMachinesData = {"lineName":lineName, "nodeId":nodeId, "machineName":machineName, "workerName":workerName, "productName":productName,"factory_code":factory_code};
+
+							$.ajax({
+								url:"/setting/insertAddMachines",
+								contentType:"application/json",
+								method:"post",
+								data:JSON.stringify(addMachinesData),
+								success:function(data){
+									console.log(data)
+									if(data == true){
+										alert("저장을 성공하였습니다.")
+										location.href = "/setting";
+									}
+								}
+							})
+						}
+					}
+				}
+			})		
+		})
+	})
+	
+	function factorySave(){
+		var factoryCode = $("#factoryCode").val() 
+		var factoryName = $("#factoryName").val() 
+		
+		factoryData = {"factoryCode":factoryCode, "factoryName":factoryName, "user_id":user_id};
+
+		$.ajax({
+	        url:"/setting/insertfactoryData",
+	        contentType:"application/json",
+	        method:"post",
+	        data:JSON.stringify(factoryData),
+	        success:function(data){
+	        	if(data == true){
+	        		alert("저장되었습니다.")
+	        		location.href = "/setting";
+	        	}
+	        } 	
+		})
+	}
+</script>
+<div id="content">
+	<div id="content_top">
+		<div id = "top_1">
+			<div style='background-color: white; padding: 50px; font-size: 19px;'>
+				<div style='background-color: white;'>
+					<p>Factory Code :</p>
+					<input type="text" placeholder="Factory Code" class='factoryInput' id='factoryCode'>
+				</div>
+				<div style='background-color: white; margin-top: 7px;'>
+					<p>Factory Name :</p>
+					<input type="text" placeholder="Factory Name" class='factoryInput' id='factoryName'>
+				</div>
+			</div>
+			<div id='factorySave' onclick='factorySave()'>
+				<p>SAVE</p>
+			</div>
+		</div>
+		<div id = "top_2">
+			<div style='margin: 10px;'>
+				<table id='factoryTable'>
+					<thead>
+						<tr style='text-align: center;'>
+							<td>No</td>
+							<td>Factory Code</td>
+							<td>Factory Name</td>
+							<td>Action</td>
+						</tr>
+					</thead>
+					<tbody>
+						
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<style>
+		#factoryMachinesTable td{
+			text-align: center;
+		}
+		#factoryMachinesDelete{
+			width: 100px;
+			background-color: tomato;
+			height: 30px;
+		    border: 1px solid tomato;
+		    border-radius: 5px;
+		    color: white;
+		}
+		#factoryMachinesDelete:hover{
+			cursor:pointer;
+		}
+		#viewConfiguration{
+		    width: 290px;
+		    background-color: gray;
+		    height: 30px;
+		    border: 1px solid gray;
+		    border-radius: 5px;
+		    color: white;
+		}
+		#dataSet{
+			width: 250px;
+		    background-color: #2f5597;
+		    height: 30px;
+		    border: 1px solid #2f5597;
+		    border-radius: 5px;
+		    color: white;
+		}
+	</style>
+	<div id="content_bottom">
+		<div>
+			<p style="font-size: 20px; margin: 10px;" >Factory Machines</p>
+			<div style="margin: 10px;">
+				<table id='factoryMachinesTable'>
+					<thead>
+						<tr style='text-align: center; font-weight: 700;'>
+							<td>Factory Code</td>
+							<td>Factory Name</td>
+							<td>Line</td>
+							<td>Node Id</td>
+							<td>Action</td>
+						</tr>
+					</thead>
+					<tbody style='padding-left: 10px;'>
+						
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="name_edit" title="이름 변경" style="display:none">
+	<div>
+		<p>Factory Name</p>
+		<input type="text" id='newName'>
+	</div>
+</div>
+<div id="factory_delete" title="삭제" style="display:none">
+	<div>
+		<p>삭제 하시겠습니까?</p>
+	</div>
+</div>
+<div id="machines_area" title="Machines" style="display:none">
+	<div>
+		<table id='machinesTable'>
+			<thead>
+				<tr style='text-align: center;	'>
+					<td>No</td>
+					<td>Name</td>
+					<td>Line</td>
+					<td>Worker</td>
+					<td>Product</td>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+	</div>
+</div>
+<div id="sensor_area" title="sensor" style="display:none">
+	<div>
+		<table id='sensorTable'>
+			<thead>
+				<tr style='text-align: center;'>
+					<td>No</td>
+					<td>Node_id</td>
+					<td>sensor_id</td>
+					<td>type</td>
+					<td>value</td>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+	</div>
+</div>
+<div id="addMachines_zone" title="Add Machines" style="display:none" style='text-align: center;'>
+	<div>
+		<p>Line Name :</p>
+		<input type="text" placeholder="Line Name" id='lineName' class='machinesInput'>
+	</div>
+	<div>
+		<p>Node Id :</p>
+		<input type="text" placeholder="Node Id" id='nodeId' class='machinesInput' style='margin-top: 7px;'>
+	</div>
+	<div>
+		<p>Machine Name :</p>
+		<input type="text" placeholder="Machine Name" id='machineName' class='machinesInput' style='margin-top: 7px;'>
+	</div>
+	<div>
+		<p>Worker Name :</p>
+		<input type="text" placeholder="Worker Name" id='workerName' class='machinesInput' style='margin-top: 7px;'>
+	</div>
+	<div>
+		<p>Product Name : </p>
+		<input type="text" placeholder="Product Name" id='productName' class='machinesInput' style='margin-top: 7px;'>
+	</div>
+</div>
+<!--sensorAdd  -->
+<div id="addSensor_zone" title="Add Sensor" style="display:none" style='text-align: center;'>
+	<div>
+		<p>Type :</p>
+		<input type="text" placeholder="Type" id='sensorType' class='machinesInput'>
+	</div>
+	<div>
+		<p>Sensor_id :</p>
+		<input type="text" placeholder="Sensor_id" id='addSensor_id' class='machinesInput' style='margin-top: 7px;'>
+	</div>
+</div>
+<div id="machineDelete" title="머신 삭제" style="display:none">
+	<div>
+		<p>삭제 하시겠습니까?</p>
+	</div>
+</div>
+{%endblock%}

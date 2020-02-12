@@ -1,0 +1,575 @@
+{%extends "base.html"%}
+
+{%block title%}
+Dashboard
+{%endblock%}
+{%block link%}{%endblock%}
+{%block script%}
+<script type="text/javascript">
+$(function(){
+	$("#dashboard_li").css({"background-color":"gray","color":"white"})	
+})
+
+</script>
+<style type="text/css">
+	#content{
+		margin-top:10px;user_id
+		width:1510px;
+		height:930px;
+		background-color: #2D3E48;
+	}
+	#content_top{
+		overflow: hidden;
+		margin-bottom:10px;
+	}
+	#content_top p, #content_bottom p{
+		background-color: white;
+		text-align: center;
+		font-weight: 700;
+		height:30px;
+		line-height: 30px;
+		font-size: 20px;
+		background-color: #e8e8e8;
+	}
+	#top_1{
+		float:left;
+		width:490px;
+		height:350px;
+		background-color: white;
+	}
+	#top_2{
+		float:left;
+		margin-left:10px;
+		width:500px;
+		height:350px;
+		background-color: white;
+	}
+	#top_3{
+		float:right;
+		width:500px;
+		height:350px;
+		background-color: white;
+	}
+	#bottom_1{
+		float:left;
+		width:750px;
+		height:570px;
+		background-color: white;
+	}
+	#bottom_2{
+		float:right;
+		width:750px;
+		height:570px;
+		background-color: white;
+	}
+</style>
+<script type="text/javascript">
+	$(function(){
+		// var svg = d3.select("#myGraph2")
+		// 	      .attr("width",450)
+		// 	      .attr("height", 280)
+
+		// 	    var margin = {left:20, right:10, top: 10, bottom: 20}
+		// 	    var width = svg.attr("width") - margin.left - margin.right;
+		// 	    var height = svg.attr("height") - margin.bottom - margin.top;
+			    
+		// 	    // // TODO: nest data with d3.nest
+		// 	    // $.ajax({
+		// 	    // 	url:"/monitoring/last_one_hour_temp"
+		// 	    // })
+		// 	    var data = [{"date":"06/10", "a": 250},
+		// 	                {"date":"06/20", "a": 150},
+		// 	                {"date":"06/30", "a": 200},
+		// 	                {"date":"06/40", "a": 100},
+		// 	                {"date":"06/50", "a": 150},
+		// 	                {"date":"07/00", "a": 200},
+		// 	               ]
+		// 	    // console.log(data)
+		// 	    var x = d3.scaleTime()
+		// 	    	.rangeRound([0, width]);
+		// 	    var x_axis = d3.axisBottom(x);
+			    
+		// 	    var y = d3.scaleLinear()
+		// 	    	.rangeRound([height, 0]);
+		// 	    var y_axis = d3.axisBottom(y);
+			    
+		// 	    var parseTime = d3.timeParse("%H/%M");
+			    
+		// 	    x.domain(d3.extent(data, function(d) { return parseTime(d.date); }));
+		// 	  	y.domain([0, 
+		// 	              d3.max(data, function(d) { 
+		// 	                return d3.max([300]);
+		// 	              })]);
+
+		// 	    var a = function(d) {return d.a};
+			    
+		// 	    var multiline = function(category) {
+		// 	      var line = d3.line()
+		// 	                  .x(function(d) { return x(parseTime(d.date))+10; })
+		// 	                  .y(function(d) { return y(d[category]); });
+		// 	      return line;
+		// 	    }
+			    
+		// 	    var line = d3.line()
+		// 	      .x(function(d) { return x(parseTime(d.date)); })
+		// 	      .y(function(d) { return y(d); }); 
+
+		// 	    var categories = ['a'];
+		// 	    //var color = d3.scale.category10();  // escala com 10 cores (category10)
+		// 	    var color = d3.scaleOrdinal(d3.schemeCategory10);
+			    
+		// 	    var g = svg.append("g")
+		// 	        .attr("transform",
+		// 	          "translate(" + margin.left + "," + margin.top + ")");
+			    
+		// 	    for (i in categories) {
+		// 	      var lineFunction = multiline(categories[i]);
+		// 	      g.append("path")
+		// 	        .datum(data) 
+		// 	        .attr("class", "line")
+		// 	        .style("stroke", color(i))
+		// 	        .attr("d", lineFunction);
+		// 	    }
+			    
+		// 	      // Add the X Axis
+		// 	  		g.append("g")
+		// 	      .attr("transform", "translate(0," + height + ")")
+		// 	      .call(d3.axisBottom(x));
+			    
+		// 	      // Add the Y Axis
+		// 	  		g.append("g")
+		// 	      .call(d3.axisLeft(y));
+		// // $.ajax({
+		// // 	url:"/monitoring/last_one_hour_temp?factory_code="+factory_code+"&line="+line+"&node_id="+node_id,
+		// // 	method:"get",
+		// // 	contentType:"application/json",
+		// // 	success:function(data){
+		// // 		console.log(data)
+		// // 		// $("#last_external_temperature_value").html("sdfsdfsd")
+		// // 	}
+		// // })
+		// // console.log(user_id)
+	})
+</script>
+<style type="text/css">
+	.line {
+	      fill: none;
+	      stroke: steelblue;
+	      stroke-width: 2px;
+	}
+</style>
+{%endblock%}	
+{%block content%}
+<div id="content">
+	<div id="content_top">
+		<div id = "top_1">
+			<p>External Temperature</p>
+			<div id="External_Temperature_graph">
+				<svg id="myGraph2"></svg>
+			</div>
+			<style type="text/css">
+			#External_Temperature_graph{
+				width:100%;
+				height:326px;
+				background-color: white;
+			}
+			</style>
+		</div>
+		<div id = "top_2">
+			<p>Machine Status</p>
+			<div id="Machine_Status_graph">
+				<div id="ma">
+					<table>
+						<tr id = 'machine_normal'></tr>
+						<tr id = 'machine_error'></tr>
+						<tr id = 'machine_name'></tr>
+					</table>
+	 		    </div>
+			</div>
+			<script type="text/javascript">
+			$(function(){
+				$("#Machine_Status_graph").css({"margin":"10px","background-color":"white"})
+				for (var i = 0; i < 20; i++){
+					if((i % 2) == 0){
+						$("#machine_normal").append("<td style='background-color:white'><div style='margin:10px 5px;width:80px; height:80px;background-color:green;border:1px solid green;border-radius:10px'></div></td>")
+						$("#machine_error").append("<td style='background-color:white'><div style='margin:10px 5px;width:80px; height:80px;background-color:white;border:1px solid red;border-radius:10px'></div></td>")			
+						$("#machine_name").append("<td style='padding:5px 20px;background-color:white'>tiny</td>")		
+					}else{
+						$("#machine_normal").append("<td style='background-color:white'><div style='margin:10px 5px;width:80px; height:80px;background-color:white;border:1px solid green;border-radius:10px'></div></td>")			
+						$("#machine_error").append("<td style='background-color:white'><div style='margin:10px 5px;width:80px; height:80px;background-color:red;border:1px solid red;border-radius:10px'></div></td>")			
+						$("#machine_name").append("<td style='padding:5px 20px;background-color:white'>tiny</td>")		
+					}
+				}
+				$("#Machine_Status_graph #ma table").css({"background-color":"white","margin":"10px 0 0 0"})
+				// newCell_2.width = 350;   // td size 지정
+    //     newCell_2.style.wordBreak  = "break-all";
+			})
+			</script>
+			<style type="text/css">
+			#Machine_Status_graph{
+				white-space:nowrap;
+				overflow-x:scroll;
+				width:480px;
+				height:310px;
+				background-color: white;
+			}
+			</style>
+		</div>
+		<script>
+			$(function(){
+
+			})
+		</script>
+		<div id = "top_3">
+			<p>Error Machine</p>
+			<div id="Error_Machine_table">
+				<table id = "tbl_error_machine_table">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Line</th>
+							<th>Date</th>
+							<th>time</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
+			<script type="text/javascript">
+				var user_id = "{{user_id}}"
+            
+            table = $("#tbl_error_machine_table").DataTable({
+                  "processing": true,
+                    "serverSide": true,
+                    "ordering":false,
+                    "filter": false,
+                    "scrollCollapse": true,
+                    "pageLength": 5,
+                    "bInfo" : false, // 데이터 테이블 showing 숨기기
+                    "bLengthChange": false,
+                    "orderMulti": false,
+                    "language": {
+                      "paginate": {
+                        "next": '>', // or '→'
+                        "previous": '<', // or '←' 
+                      }
+                    },
+                    "ajax": {
+                      "url":"/dashboard/countErr",
+                       "type": "post",
+                       "datatype": "json",
+                       "data": function ( data ) {
+                          data.user_id = user_id
+                       },
+                   },
+                   "columnDefs":[
+                        {
+                              "targets":[2],
+                              "render":function(data){
+                                 FallingDate = new Date(data);
+                              var FallingDate_format = moment(FallingDate).format('YYYY-MM-DD');   
+                              return FallingDate_format;
+                              }
+                           },
+                           {
+                              "targets":[3],
+                              "render":function(data){
+                                 FallingDate = new Date(data);
+                              var FallingDate_format = moment(FallingDate).format('HH:mm:ss');   
+                              return FallingDate_format;
+                              }
+                           }
+                    ],
+                   "columns":[
+                      {"data":"machine_name"},
+                        {"data":"line"},
+                        {"data":"reg_date"},
+                        {"data":"reg_date"},
+                  ]
+                })
+
+			    $("#tbl_error_machine_table").css({"border-collapse":"collapse"});
+				$("#tbl_error_machine_table tr th").css({"height":"40px"})
+			</script>
+			<style type="text/css">
+			#Error_Machine_table{
+				margin:10px;
+				width:480px;
+				height:326px;
+				background-color: white;
+			}
+			#tbl_error_machine_table thead tr{
+				border-bottom: 5px solid #bdbdbd;
+			}
+			
+			#Error_Machine_table{
+				margin:10px;
+			}
+			#tbl_error_machine_table{
+				border-collapse: collapse;
+			}
+			#tbl_error_machine_table tr td{
+				padding:10px;
+				height:52px;
+				border-bottom: 1px solid #e2e2e2;
+				text-align: center;
+			}
+			</style>
+		</div>
+	</div>
+	<style>
+		#myGraph{ 
+		    width: 730px;
+		    height: 520px;
+		    /*border: 1px solid black;*/
+		    /*padding:10px;*/
+		    margin: 10px;
+		}
+		.bar{
+			fill: red;
+		}
+		.axis text{
+			font-size: 20px;
+			/*color:white;*/
+		}
+		.axis path,
+		.axis line {
+			fill:gray;
+			stroke:black;
+		}
+		svg{
+			margin: 20px;
+		}
+	</style>
+	<script>
+		$(function(){
+			var user_id = "{{user_id}}";
+			// console.log(user_id)
+			$.ajax({
+				url : "/dashboard/trend?user_id="+user_id,
+				contentType:"application/json",
+				method:"get",
+				success:function(data){
+					// console.log(data)
+					// console.log(data[0][1])
+					// console.log(data[1][2])
+					var cnt_arr = [];
+					var day_arr = [];
+					var dataset = [];
+					// CNT_arr.push(data[0][2].cnt/data[1][2].cnt*100)
+					// CNT_arr.push(data[0][1].cnt/data[1][1].cnt*100)
+					// CNT_arr.push(data[0][0].cnt/data[1][0].cnt*100)
+					
+					for(var i = 0; i<data[0].length; i++){
+						day_arr.push(data[0][i].DAY)
+						cnt_arr.push(data[0][i].cnt/data[1][i].cnt*100)
+					}
+					// console.log(day_arr);
+					// console.log(cnt_arr);
+					
+					for(var i = 0; i<day_arr.length; i++){
+						dataset.push({x:day_arr[day_arr.length-i-1], y:cnt_arr[day_arr.length-i-1]});
+					}
+					
+					// console.log(CNT_arr)
+					// console.log(data[1].cnt)
+					// $.ajax({
+					// 	url:"/dashboard/trend2?user_id="+user_id,
+					// 	contentType:"application/json",
+					// 	method:"get",
+					// 	success:function(data){
+
+					// 	}
+					// })
+					// var dataset = []
+
+					// var dataset = [{x:data[1][2].DAY, y:CNT_arr[0]}, {x:data[1][1].DAY, y:CNT_arr[1]}, {x:data[1][0].DAY, y:CNT_arr[2]}];
+					// console.log(dataset)
+					// var dataset = [{data[0].day, }, data[1], data[2]]
+					// console.log(dataset)
+					var svg = d3.select("#myGraph")
+
+					var width  = parseInt(svg.style("width"), 10);
+					var height = parseInt(svg.style("height"), 10) - 30;
+					var svgG = svg.append("g")
+					    .attr("transform", "translate(30,10)")
+					    // .call(d3.axisLeft(yScale).ticks(5));
+
+
+
+					var yScale = d3.scaleLinear()                                            
+					    .domain([0, d3.max(dataset, function(d){ return 100; })])
+					    .range([height, 0]); 
+
+					var xScale = d3.scaleBand()                                        
+					    .domain(dataset.map(function(d) { return d.x;} )) // 시작값과 종료값(최대 값)을 지정하면 된다. A,B,C등은 문자열이기에 배열에 사용된 모두를 AMP지정
+					    .range([0, width]).padding(0.2); 
+
+				    svg.selectAll("rect")
+					    .data(dataset)
+			    		.enter().append("rect")
+					        .attr("class", "bar")
+					        .attr("height", function(d, i) {return height-yScale(d.y)})
+					        .attr("width", xScale.bandwidth())                            
+					        .attr("x", function(d, i) {return xScale(d.x)})
+					        .attr("y", function(d, i) {return yScale(d.y)+10});
+
+			        svg.selectAll("text")
+					    .data(dataset)
+					    .enter().append("text")
+						.style('fill', 'white')
+		    			.text(function(d) {return (d.y).toFixed(1) +"%"})
+					        .attr("class", "text")
+					        .attr("x", function(d, i) {return xScale(d.x)+xScale.bandwidth()/2})
+					        .style("text-anchor", "middle")
+					        .attr("y", function(d, i) {return yScale(d.y) + 50});
+
+					svgG.append("g")                                                     
+		    			.call(d3.axisLeft(yScale).ticks(10));
+
+					svg.append("g")                                                       
+					    .attr("transform", "translate(0," + (height+10) + ")")
+					    .call(d3.axisBottom(xScale));
+					// var svgHeight = 522; //svg  요소의 높이
+					// var barElements; //막대 그래프의 막대 요소를 저장할 변수
+					// var dataSet = [120, 70, 175, 80, 220];
+					// // 그래프 그리기
+					// barElements = d3.select("#myGraph")
+					// 	.selectAll("rect") // rect 요소를 지정
+					// 	.data(dataSet) // 데이터를 요소에 견결
+					// 	// 데잍어가 추가 될 때
+					// barElements.enter() //데이터 개수 만큼 반복
+					// 	.append("rect") // 데이터 개수 만큼 rect 요소가 추가됨
+					// 	.attr("class","bar") // css 클래스 지정
+					// 	.attr("height",function(d,i){ //높이 지정. 2번째 파라미터에 함수 지정
+					// 		return d;  //데이터 값을 그대로 높이로 변환
+					// 	})
+					// 	.attr("width", 45) // 넓이 지정
+					// 	.attr("x", function(d,i){ //x 좌표를 지정함
+					// 		return i * 50 //표시 순서에 25를 곱하여 위치를 계산
+					// 	})
+					// 	.attr("y", function(d,i){ //x 좌표를 지정함
+					// 		return svgHeight - d // y 좌표를 계산
+					// 	})
+					// barElements.enter() //text 요소 지정
+					// 	.append("text") // text 요소 추가
+					// 	.attr("class", "barNum") // css 클래스를 지정
+					// 	.attr("x", function(d,i){
+					// 		return i * 50 +10; // 표시 순서에 25를 곱하여 위치를 계산
+					// 	}) 
+					// .attr("y",svgHeight - 5)   // y 좌표를 지정
+					// .text(function(d,i){
+					// 	return d;
+					// })
+					// //눈금을 표시하기 위한 스케일 설정
+					// var svg = d3.select("svg");
+					// var svgG = svg.append("g")                                              
+					// 	.attr("transform", "translate(30, 0)");
+
+					// var yScale = d3.scaleLinear()                                            
+					//     .domain([0, d3.max(dataset, function(d){ return d.y; })])
+					//     .range([height, 0]); 
+
+				}
+			})
+		})
+	</script>
+	<div id="content_bottom">
+		<div id = "bottom_1">
+			<p>Trend Over Time</p>
+			<div id="Trend_Over_Time_graph">
+				<svg id='myGraph'>
+					
+				</svg>
+			</div>
+		</div>
+		<div id = "bottom_2">
+			<p>Real Time Data</p>
+			<div id="Real_Time_Data_table">
+				<table id = "tbl_real_time_data">
+					<thead>
+						<tr>
+							<th>Date</th>
+							<th>Node ID</th>
+							<th>Sensor Type</th>
+							<th>Data</th>
+							<th>Node State</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+				<script type="text/javascript">
+				$(function(){
+					var user_id = "{{user_id}}";
+					$.ajax({
+					    url:"/dashboard/realtimedata?user_id="+user_id,
+					    contentType:"application/json",
+					    method:"get",
+					    success:function(data){
+					        var TableList = data;
+					        // console.log(TableList)
+						    table = $("#tbl_real_time_data").DataTable({
+						        "destroy":true,
+						        "ordering":false,
+						        "searching": false,
+						        "info": false, 
+						        "scrollY": "480px",
+						        "scrollCollapse": true,
+						        "bLengthChange": false,  
+						        "data": TableList,
+						        "paging": false,
+						        "columnDefs":[{
+						        	"targets":[0],
+			                        "render":function(data){
+			                            regi_date = new Date(data);
+			                            var FallingDate_format = moment(regi_date).format("YYYY-MM-DD hh:mm:ss"); 
+			                            return FallingDate_format;
+			                        }
+						        }],
+						        "columns":[
+						            {"data":"regi_date"},
+						            {"data":"node_id"},
+						            {"data":"type"},
+						            {"data":"value"},
+						            {"data":"value"}
+						        ]
+						    })
+					    }
+					})
+					$("#tbl_real_time_data tr th").css({"height":"40px"})
+				})
+				</script>
+				<style type="text/css">
+			
+					#tbl_real_time_data thead tr{
+						border-bottom: 5px solid #bdbdbd;
+					}
+					#Real_Time_Data_table{
+						margin:10px;
+						width:730px;
+					}
+					#tbl_real_time_data{
+						border-collapse: collapse;
+					}
+					#tbl_real_time_data{
+						width: 99% !important;
+					}
+					#tbl_real_time_data th{
+					}
+					#tbl_real_time_data tr td{
+						padding:10px;
+						height:40px;
+						border-top: 1px solid #e2e2e2;
+						border-bottom: 1px solid #e2e2e2;
+						text-align: center;
+					}
+				</style>
+			</div>
+		</div>
+	</div>
+</div>
+{%endblock%}
+
+<script type="text/javascript">
+
+</script>
